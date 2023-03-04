@@ -1,7 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-// import puppeteer from "puppeteer";
-
 let chrome: any = {};
 let puppeteer: any;
 
@@ -11,7 +7,7 @@ if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
 } else {
   puppeteer = require("puppeteer");
 }
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export default async (req: any, res: any) => {
   let account = { username: "", password: "" };
 
   try {

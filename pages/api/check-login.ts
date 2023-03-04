@@ -25,12 +25,12 @@ export default async (req: any, res: any) => {
             "--hide-scrollbars",
             "--disable-web-security",
           ],
-          headless: true,
+          headless: false,
           ignoreHTTPSErrors: true,
         };
       }
 
-      const browser = await puppeteer.launch(options);
+      const browser = await puppeteer.launch({ headless: false });
       const page = await browser.newPage();
 
       await page.goto(
@@ -53,15 +53,9 @@ export default async (req: any, res: any) => {
 
       const passwordResponse = await page.waitForResponse(
         async (response: { url: () => string | string[] }) => {
-          console.log(
-            response.url(),
-            response.url().includes("/u/login/password")
-          );
           return response.url().includes("/u/login/password");
         }
       );
-
-      console.log("passwordResponse?.status()", passwordResponse?.status());
 
       if (passwordResponse?.status() !== 302) {
         return res.status(200).json({

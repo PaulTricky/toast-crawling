@@ -14,7 +14,7 @@ export default async (req: any, res: any) => {
     if (req?.query?.account) {
       account = JSON.parse(atob(req?.query?.account as string));
     }
-    console.log(account);
+    console.log(account, process.env.AWS_LAMBDA_FUNCTION_VERSION);
     if (account?.username && account.password) {
       let options = {};
 
@@ -30,8 +30,13 @@ export default async (req: any, res: any) => {
         };
       }
 
-      const browser = await puppeteer.launch(options);
+      console.log("start launch");
+      const browser = await puppeteer.launch({ ...options, headless: true });
+      console.log("end launch");
+
+      console.log("start page");
       const page = await browser.newPage();
+      console.log("end page");
 
       await page.goto(
         "https://sandbox.eng.toasttab.com/restaurants/admin/home"

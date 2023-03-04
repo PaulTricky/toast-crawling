@@ -20,11 +20,9 @@ export default async (req: any, res: any) => {
 
       if (process.env.AWS_LAMBDA_FUNCTION_VERSION) {
         options = {
-          agrs: [
-            ...(chrome?.args || {}),
-            "--hide-scrollbars",
-            "--disable-web-security",
-          ],
+          args: [...chrome.args, "--hide-scrollbars", "--disable-web-security"],
+          defaultViewport: chrome.defaultViewport,
+          executablePath: await chrome.executablePath,
           headless: true,
           ignoreHTTPSErrors: true,
         };
@@ -77,6 +75,7 @@ export default async (req: any, res: any) => {
       });
     }
   } catch (e) {
+    console.log("error", e);
     res.status(200).json({
       status: "fail",
     });

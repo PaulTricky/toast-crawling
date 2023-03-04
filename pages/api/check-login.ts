@@ -25,12 +25,12 @@ export default async (req: any, res: any) => {
             "--hide-scrollbars",
             "--disable-web-security",
           ],
-          headless: false,
+          headless: true,
           ignoreHTTPSErrors: true,
         };
       }
 
-      const browser = await puppeteer.launch({ headless: false });
+      const browser = await puppeteer.launch(options);
       const page = await browser.newPage();
 
       await page.goto(
